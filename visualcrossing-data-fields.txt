@@ -1,0 +1,56 @@
+I asked copilot to generate this list for me as a reference of what data i can draw from this API.
+
+
+
+
+
+
+
+The Visual Crossing Weather API (timeline endpoint) returns a JSON object with a variety of fields. Below is a list of common properties you can access from the response and the JavaScript expression you would use to reference them (assuming `data` is the parsed JSON):
+
+Top-level fields (example: `data.address`, `data.resolvedAddress`)
+- address / resolvedAddress            : string location name
+- latitude, longitude                 : numeric coordinates
+- timezone, tzoffset                  : strings/numbers
+- description                         : summary text
+
+`data.days` is an array of day objects. Access day `i` with `data.days[i]`. Within each day object:
+
+- `datetime`                          : string date (e.g. "2026-03-01")
+- `datetimeEpoch`                     : unix timestamp
+- `temp`                              : average temperature (°F with unitGroup=us)
+- `feelslike`                         : "feels like" temperature
+- `humidity`                          : percent (0–100)
+- `precip`                            : precipitation amount
+- `precipprob`                        : probability of precipitation
+- `preciptype`                        : array of types ("rain","snow",…)
+- `snow`                              : snowfall amount
+- `snowdepth`                         : snow depth
+- `windgust`                          : wind gust speed
+- `windspeed`                         : average wind speed
+- `winddir`                           : wind direction in degrees
+- `pressure`                          : atmospheric pressure
+- `cloudcover`                        : percent cloud cover
+- `visibility`                        : visibility distance
+- `solarradiation`                    : solar radiation
+- `solarenergy`                       : solar energy
+- `uvindex`                           : UV index
+- `sunrise`, `sunset`                 : local times
+- `moonphase`                         : fraction (0 new, 1 full)
+- `conditions`                        : string summary ("Partially cloudy", etc.)
+- `description`                       : longer text description
+
+There may also be hourly data under `data.days[i].hours[j]` with similar fields,
+and additional properties such as `icon` or `stations` depending on your request.
+
+Usage example in JavaScript:
+```js
+fetch(url)
+  .then(r => r.json())
+  .then(data => {
+     let today = data.days[0];
+     console.log(today.windspeed, today.winddir, today.feelslike);
+  });
+```
+
+For the full schema refer to Visual Crossing's documentation: https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/ (may change over time).
