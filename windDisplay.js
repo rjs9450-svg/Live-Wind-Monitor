@@ -82,6 +82,7 @@ function draw() {
   text(`South`, width/2, height-10)
   text(`East`, width-30, height/2)
   text(`West`, 30, height/2)
+  text(`${windSpeed} mph`, width/2, height-30)
   
 }
 
